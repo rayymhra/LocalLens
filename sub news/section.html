@@ -1,0 +1,618 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Lens - All News</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            /* biar bisa ngescroll pake navbar */
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        #blog {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 0px;
+            /* background-color: #f9f8ff; */
+            margin-top: 5rem;
+        }
+
+        .blog-heading h3 {
+            font-size: 2.4rem;
+            color: #252525;
+            font-weight: 800;
+            text-transform: uppercase;
+            line-height: 2.4rem;
+        }
+
+        .blog-heading strong {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            color:crimson ;
+        }
+
+        .blog-box-container {
+            /* display: flex;
+            align-items: center;
+            justify-content: center; */
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            max-width: 1050px;
+            width: 90%;
+            margin-top: 50px;
+        }
+
+        .blog-box {
+            max-width: 100%;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            transition: all ease 0.3s;
+        }
+
+        .blog-box:hover {
+            background-color: #ffffff;
+            box-shadow: 16px 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .blog-box-img {
+            width: 100%;
+            height: 100%;
+            max-height: 300px;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+        }
+
+        .blog-box-img img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: all ease 0.3s;
+        }
+
+        .blog-img-link {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffffff;
+            color: #252525;
+            box-shadow:2px 2px 30px rgba(20, 97, 212, 0.12) ;
+            animation: fade 0.3s;
+        }
+
+        .blog-box:hover .blog-box-img a {
+            display: flex;
+        }
+
+        .blog-box:hover .blog-box-img img {
+            filter: blur(3px);
+        }
+
+        @keyframes fade {
+            0%{
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .blog-box-text {
+            display: flex;
+            flex-direction: column;
+            padding: 30px 10px 20px 10px;
+        }
+
+        .blog-box-text strong, .blog-box-text p{
+            color: #797979;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .blog-box-text a {
+            font-size: 1.4rem;
+            color: #252525;
+            font-weight: 800;
+            line-height: 1.8rem;
+            margin: 5px 0px 10px 0px;
+        }
+
+        .blog-box-text p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .blog-author {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .blog-author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 10px;
+        }
+
+        .blog-author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .blog-author-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-author-text strong{
+            color: #252525;
+            font-weight: 800;
+        }
+
+        .blog-author-text span {
+            color: #797979;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            background-color: crimson;
+            color: #ffffff;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            z-index: 9999999999;
+            padding: 1rem 20px;
+        }
+
+        .navbar li a {
+            color: #ffffff;
+            /* scroll-snap-type: mandatory; */
+            /* display: inline-block; */
+        }
+
+        .navbar li a:hover {
+            color: #252525;
+        }
+
+        .navbar li {
+            display: inline-block;
+            padding: 1rem 20px;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo" id="happen">Local Lens</div>
+        <nav>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="#">Happening Now</a></li>
+            <li><a href="#nature">Nature</a></li>
+            <li><a href="#bm3">SMK BM3</a></li>
+        </nav>
+    </div>
+    <section id="blog">
+        <div class="blog-heading">
+            <strong>Local Lens</strong>
+            <h3>Happening Now</h3>
+        </div>
+
+        <div class="blog-box-container">
+            <!-- box1 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/bioskop.jpg" alt="">
+                    <a href="happening now/bioskop.html" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Happening Now</strong>
+                    <a href="happening now/bioskop.html">Update Film Terbaru di Cinema XXI Metropolitan Mall</a>
+                    <p>Para penggemar bioskop di Cileungsi kini mendapat kesempatan istimewa dengan hadirnya Cinema XXI, jaringan bioskop terkemuka, yang telah memperkenalkan deretan film terbarunya di Metland Cileungsi</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box2 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/indomart.jpg" alt="">
+                    <a href="happening now/indomart.html" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Happening Now</strong>
+                    <a href="happening now/indomart.html">Rame Promo Menarik di Indomart Cileungsi</a>
+                    <p>Promo Menarik di Indomaret Cileungsi: Diskon dan Penawaran Spesial Menyambut Akhir Bulan! Indomaret Cileungsi kembali menghadirkan berbagai promo menarik bagi para pelanggan setianya. Dalam rangka menyambut akhir bulan, Indomaret memberikan diskon besar-besaran dan penawaran spesial untuk berb</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box3 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/ramen.jpg" alt="">
+                    <a href="happening now/ramen.html" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Happening Now</strong>
+                    <a href="happening now/ramen.html">Ada Restaurant Baru di Cileungsi! Rasakan Lezatnya Kuliner Jepang Ramen Banjuri</a>
+                    <p>Metland Cileungsi kini semakin memperkaya pilihan kuliner dengan kehadiran restoran Ramen Bajuri yang berada di pusat padat nya penduduk tepat nya di Ruko PTM Metland Transyogi, Cileungsi, Kec. Cileungsi, Kabupaten Bogor, Jawa Barat 16820. Ramen Bajuri yang baru-baru saja di buka ini menyuguhkan sensasi lezatnya kuliner Jepang di tengah-tengah kawasan yang berkembang pesat ini. Ramen Bajuri, yang telah</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box4 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/surabi.jpg" alt="">
+                    <a href="happening now/surabi.html" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Happening Now</strong>
+                    <a href="happening now/surabi.html">Cafe Modern Baru di Cileungsi Kedai Surabi</a>
+                    <p>Metland Cileungsi semakin memperkaya ragam kuliner dengan kehadiran Café modern namun menyajikan menu-menu khas tradisional yang telah di kembangkan pada saat ini. Jadi, cafe ini bisa membuat para pemuda berkunjung dan meyicipi makanan khas tradisional namun dengan sensasi yang lebih modern.</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box5 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/roti.jpg" alt="">
+                    <a href="happening now/roti.html" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Happening Now</strong>
+                    <a href="happening now/roti.html">Toko Baru Roti Enak Metland Cileungsi</a>
+                    <p>Metland Cileungsi kini semakin meriah terutama dengan kuliner nya yang beragam pilihan tersedia disana. Dengan kehadiran Toko Roti Enak, yang berada di sekitaran metland cileungsi yang begitu padat dengan penduduk, Tepatnya di Sektor 4 sebelah tempat gym dan alfamidi </p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="blog">
+        <div class="blog-heading" id="nature">
+            <strong>Local Lens</strong>
+            <h3>Nature</h3>
+        </div>
+
+        <div class="blog-box-container">
+            <!-- box1 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/monyet.jpg" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box2 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/hias.jpg" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box3 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/kelapa.jpg" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box4 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/contoh.PNG" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Nature</strong>
+                    <a href="">Perubahan Iklim</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box5 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/iguana.jpg" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog">
+        <div class="blog-heading" id="bm3">
+            <strong>Local Lens</strong>
+            <h3>SMK BM3</h3>
+        </div>
+
+        <div class="blog-box-container">
+            <!-- box1 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/contoh.PNG" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box2 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/contoh.PNG" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box3 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/contoh.PNG" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box4 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/contoh.PNG" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box5 -->
+            <div class="blog-box">
+                <div class="blog-box-img">
+                    <img src="../pict/contoh.PNG" alt="">
+                    <a href="" class="blog-img-link"><i class='bx bx-link-external'></i></a>
+                </div>
+                <div class="blog-box-text">
+                    <strong>Artificial Intelligence</strong>
+                    <a href="">Artificial Intelligence, What it is and How it is Used</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam alias repudiandae ut tempora magnam qui sunt suscipit reiciendis quibusdam tempore?</p>
+
+                    <div class="blog-author">
+                        <div class="blog-author-img">
+                            <img src="../pict/contoh.PNG" alt="">
+                        </div>
+                        <div class="blog-author-text">
+                            <strong>Kelompok 3</strong>
+                            <span>May 26 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/script.js"></script>
+</body>
+</html>
